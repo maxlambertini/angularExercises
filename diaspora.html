@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="diasporaApp">
+	<head>	
+		<meta charset="utf-8">	
+		<title>Hello, angular world!</title>
+		<link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.css"></link>
+		<link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap-theme.css"></link>
+		<script src="./bower_components/angular/angular.js"></script>
+		<script src="./js/diaspora.js"></script>
+		<script src="./js/diasporaApp.js"></script>
+	</head>
+	<body>
+		<div ng-controller="diasporaCtrl">
+			<div class="page-header">
+				<h1>Diaspora Cluster Generator</h1>
+			</div>
+			<div class="panel panel-default">
+				<div class="row">
+					<div class="col-md-6 col-sm-8 col-xs-12">
+						<button ng-click="getClusterFromServer()" class="btn">Create new cluster</button>
+						<button ng-show="clusterEnabled()" ng-click="saveToCouch()" class="btn">Save to CouchDB</button>
+					</div>
+				</div>
+			</div>						
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-4 col-lg-3">
+							<div class="panel panel-default" ng-show="clusterEnabled()">
+								<div class="panel-body">
+									<h3>Nodes</h3>
+									<div class="list-group">
+										<button class="list-group-item" ng-repeat="node in cluster.nodes" 
+											ng-click="$parent.setCurrentNode(node.id,$scope)">
+											{{ node.name}}
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8 col-lg-9">
+							<div class="panel  panel-default" ng-show="currentNodeEnabled()">
+								<div class="panel-body">
+									<h3>{{ currentNode.name }}</h3>
+									<table>
+										<thead>
+											<th>Environment</th>
+											<th>Resources</th>
+											<th>Tech</th>
+										</thead>
+										<tbody>
+											<td><input type="text" ng-model="currentNode.environment" /></td>
+											<td><input type="text" ng-model="currentNode.resources" /></td>
+											<td><input type="text" ng-model="currentNode.technology" /></td>
+										</tbody>
+									</table>
+									<div ng-show="linkedToEnabled()">
+										<h3>Linked to:</h3>
+										<ul>
+											<li ng-repeat="node in currentNode.linkedTo">
+												<span ng-click="$parent.setCurrentNode(node.idx,$scope)">{{ node.name}}</span>
+											</li>
+										</ul>
+									</div>
+									<div ng-show="linkedFromEnabled()">
+										<h3>Linked by:</h3>
+										<ul>
+											<li ng-repeat="node in currentNode.linkedFrom">
+												<span ng-click="$parent.setCurrentNode(node.idx,$scope)">{{ node.name}}</span>
+											</li>
+										</ul>
+									</div>
+									<div>
+										<h3>Aspects:</h3>
+										<p ng-repeat="aspect in currentNode.aspects">{{ aspect }}</p>
+									</div>
+								</div>
+							</div>						
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>				
+	</body>
+</html>

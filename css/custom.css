@@ -1,0 +1,13 @@
+body {
+	padding: 0px;
+	padding-top: 50px;
+}
+
+.container-fluid {
+	width: 100%;
+}
+
+.no-lateral-padding {
+	padding-left: 0px;
+	padding-right: 0px;
+}
